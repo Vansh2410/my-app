@@ -31,15 +31,21 @@ export default function Component() {
   const [timePoints, setTimePoints] = useState([0]);
   const [countdown, setCountdown] = useState(0);
   const [crashPoint, setCrashPoint] = useState(1);
-  const [currentMultiplier, setCurrentMultiplier] = useState(() => {
-    // Retrieve the multiplier from localStorage or set to "1.00" initially
-    return localStorage.getItem("currentMultiplier") || "1.00";
-  });
+  const [currentMultiplier, setCurrentMultiplier] = useState("1.00");
   const multiplierRef = useRef<number>(parseFloat(currentMultiplier));
   const startTime = useRef(Date.now());
   const socket = useRef<ReturnType<typeof io> | null>(null);
   const gameInterval = useRef<NodeJS.Timeout | null>(null);
   const [, setIsBetting] = useState(false);
+
+  // Initialize localStorage and multiplier once the component is mounted
+  useEffect(() => {
+    if (typeof window !== "undefined" && localStorage.getItem("currentMultiplier")) {
+      const storedMultiplier = localStorage.getItem("currentMultiplier");
+      setCurrentMultiplier(storedMultiplier || "1.00");
+      multiplierRef.current = parseFloat(storedMultiplier || "1.00");
+    }
+  }, []);
 
   const updateGraph = useCallback(() => {
     const elapsed = (Date.now() - startTime.current) / 1000;
@@ -47,7 +53,9 @@ export default function Component() {
     setDataPoints((prev) => [...prev, multiplierRef.current]);
     const formattedMultiplier = parseFloat(multiplierRef.current.toFixed(2)).toString();
     setCurrentMultiplier(formattedMultiplier);
-    localStorage.setItem("currentMultiplier", formattedMultiplier); // Store the multiplier
+    if (typeof window !== "undefined") {
+      localStorage.setItem("currentMultiplier", formattedMultiplier); // Store the multiplier
+    }
   }, []);
 
   const startGame = useCallback(() => {
@@ -113,7 +121,9 @@ export default function Component() {
         setTimePoints([0]);
         const formattedMultiplier = multiplierRef.current.toFixed(2);
         setCurrentMultiplier(formattedMultiplier);
-        localStorage.setItem("currentMultiplier", formattedMultiplier);
+        if (typeof window !== "undefined") {
+          localStorage.setItem("currentMultiplier", formattedMultiplier);
+        }
 
         if (gameInterval.current) clearInterval(gameInterval.current);
         gameInterval.current = setInterval(() => {
@@ -241,17 +251,9 @@ export default function Component() {
             <i className="fa-sharp fa-solid fa-xmark"></i>
           </div>
         )}
-        {gameState === "waiting" && countdown > 0 && (
-          <div
-            className="text-2xl sm:text-3xl md:text-4xl font-bold relative"
-            style={{
-              background: `linear-gradient(90deg,  #044717, #1f1e1e)`,
-              animation: `animatecount ${countdown}s linear forwards`,
-              opacity: countdown / 5,
-              transition: "background 0.5s ease-in-out",
-            }}
-          >
-            Next round in {countdown} seconds
+        {gameState === "waiting" && (
+          <div className="text-white text-3xl sm:text-2xl md:text-4xl font-extrabold animate-pulse">
+            Next round in {countdown}s
           </div>
         )}
       </div>
