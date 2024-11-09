@@ -50,7 +50,11 @@ export default function Component() {
   const updateGraph = useCallback(() => {
     const elapsed = (Date.now() - startTime.current) / 1000;
     setTimePoints((prev) => [...prev, elapsed]);
-    setDataPoints((prev) => [...prev, multiplierRef.current]);
+
+    // Simulate exponential growth for the graph (does not affect actual multiplier)
+    const exponentialMultiplier = Math.exp(elapsed / 10); // Adjust '10' for faster/slower growth
+    setDataPoints((prev) => [...prev, exponentialMultiplier]);
+
     const formattedMultiplier = parseFloat(multiplierRef.current.toFixed(2)).toString();
     setCurrentMultiplier(formattedMultiplier);
     if (typeof window !== "undefined") {
@@ -162,6 +166,12 @@ export default function Component() {
     };
   }, [resetGame, updateGraph, startCountdown]);
 
+  // Calculate the dynamic y-axis max based on the highest value in dataPoints
+  const calculateMaxYAxis = () => {
+    const maxDataPoint = Math.max(...dataPoints);
+    return maxDataPoint * 1.2; // Add a buffer to ensure the graph is not at the top
+  };
+
   const data = {
     labels: timePoints,
     datasets: [
@@ -212,7 +222,7 @@ export default function Component() {
         type: "linear",
         position: "left",
         min: 1,
-        max: Math.ceil(multiplierRef.current) + 1,
+        max: calculateMaxYAxis(), // Dynamic y-axis max value
         title: { display: true, text: "Multiplier (x)" },
         ticks: {
           callback: (value) => `${Number(value).toFixed(1)}x`,
@@ -246,9 +256,8 @@ export default function Component() {
           </div>
         )}
         {gameState === "crashed" && (
-          <div className="text-red-500 text-3xl sm:text-5xl md:text-6xl font-bold animate-pulse">
-            CRASHED AT {crashPoint.toFixed(2)}
-            <i className="fa-sharp fa-solid fa-xmark"></i>
+          <div className="text-2xl sm:text-4xl md:text-6xl font-extrabold text-red-600">
+            Crash at {crashPoint.toFixed(2)}x
           </div>
         )}
         {gameState === "waiting" && (
