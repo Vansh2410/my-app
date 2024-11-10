@@ -32,7 +32,7 @@ const db_config = {
   password: "sk1",
   database: "sk1",
   keepAlive: true,
-  port: 3304,
+  port: 3306,
 };
 
 let connection;

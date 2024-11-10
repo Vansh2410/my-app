@@ -4,20 +4,19 @@ import io, { Socket } from "socket.io-client";
 
 // Define the structure of a leaderboard entry
 interface LeaderboardEntry {
-  player: string; // Player's username
-  cashOut: number | string | null; // Cash-out value, can be number, string or null
-  amount: number | string | null; // Bet amount, can be number, string or null
-  profit: number | string | null; // Profit, can be number, string or null
-  country: string; // Country
-  usdValue: number | string | null; // USD Value, can be number, string or null
+  player: string;
+  cashOut: number | string | null;
+  amount: number | string | null;
+  profit: number | string | null;
+  country: string;
+  usdValue: number | string | null;
 }
-
 
 // Initialize the socket variable with type
 let socket: Socket;
 
 export default function Leaderboard() {
-  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]); // State for leaderboard data
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
 
   useEffect(() => {
     // Establish a WebSocket connection
@@ -25,7 +24,7 @@ export default function Leaderboard() {
 
     // Listen for real-time leaderboard updates
     socket.on("updateLeaderboard", (data: LeaderboardEntry[]) => {
-      setLeaderboard(data); // Update leaderboard with real-time data
+      setLeaderboard(data);
     });
 
     // Cleanup the socket connection on component unmount
@@ -35,10 +34,10 @@ export default function Leaderboard() {
   }, []);
 
   return (
-    <div className="w-full mx-auto p-[1.5rem] bg-[#323738] rounded-lg font-poppins">
+    <div className="w-full mx-auto p-4 bg-[#323738] rounded-lg font-poppins">
       {/* Header for the leaderboard */}
-      <div className="grid grid-cols-4 font-bold text-gray-400 text-center">
-        <div className="text-left">Player</div>
+      <div className="grid grid-cols-4 font-semibold text-gray-400 text-center text-sm mb-11">
+        <div className="text-left pl-2">Player</div>
         <div>Cash Out</div>
         <div>Amount</div>
         <div>Profit</div>
@@ -48,54 +47,40 @@ export default function Leaderboard() {
       {leaderboard.map((row, index) => (
         <div
           key={index}
-          style={{
-            fontSize: "14px",
-            lineHeight: "21px",
-            fontWeight: 800,
-          }}
-          className="grid grid-cols-4 py-2 text-center text-gray-400 items-center"
+          className="grid grid-cols-4 py-2 text-gray-300 items-center text-sm"
         >
-          <div style={{
-            fontSize: "16px",
-            lineHeight: "21px",
-            fontWeight: 800,
-            color: "#fff",
-          }} className="font-extrabold whitespace-nowrap overflow-hidden text-ellipsis justify-center text-left max-w-xs">
+          <div
+            className="font-bold text-white text-left truncate"
+            style={{ fontSize: "15px" }}
+          >
             {row.player}
           </div>
 
-          {/* Format cashOut and handle null or non-number values */}
           <div className="text-center">
-          {row.country} {Number(row.cashOut).toFixed(2) || "0.00"}
+            {row.country} {Number(row.cashOut || 0).toFixed(2)}
           </div>
 
-          {/* Format amount and handle null or non-number values */}
-          <div className="flex flex-col justify-center text-white items-center">
-            <span className="font-extrabold font-sans text-xs">
-              {row.country} {Number(row.amount).toFixed(2) || "0.00"}{" "}
-              {/* Format amount */}
+          <div className="flex flex-col text-center">
+            <span className="font-semibold text-white text-sm">
+              {row.country} {Number(row.amount || 0).toFixed(2)}
             </span>
-            <span className="text-[10px] font-normal font-sans w-5 text-right">
-            ₹{Number(row.usdValue).toFixed(2) || "0.00"}{" "}
-              {/* Format USD value */}
+            <span className="text-xs font-normal text-gray-400">
+              ₹{Number(row.usdValue || 0).toFixed(2)}
             </span>
           </div>
 
-          {/* Format profit and handle null or non-number values */}
-          <div>
-          ₹{Number(row.profit).toFixed(2) || "0.00"} {/* Format profit */}
+          <div className="text-center font-semibold text-green-400">
+            ₹{Number(row.profit || 0).toFixed(2)}
           </div>
         </div>
       ))}
 
-      {/* Show More Button - Placeholder for future functionality */}
-      <div className="text-center mt-5">
-        <button  style={{
-                fontSize: "14px",
-                lineHeight: "21px",
-                fontWeight: 900,
-                color: '#fff'
-              }} className="bg-gray-600 py-2 px-5 rounded-lg cursor-pointer">
+      {/* Show More Button */}
+      <div className="text-center mt-4">
+        <button
+          className="bg-gray-600 py-2 px-5 rounded-lg text-white font-semibold hover:bg-gray-500 transition duration-150"
+          style={{ fontSize: "14px" }}
+        >
           Show More
         </button>
       </div>

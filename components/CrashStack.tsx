@@ -60,66 +60,65 @@ const CrashStack = () => {
       : queueElements;
 
   return (
-    <div className="flex flex-row justify-evenly w-full bg-[#2b2b2b] ml-2 mr-2 h-10 overflow-hidden items-center rounded-md gap-2 font-poppins">
+    <div className="flex flex-row justify-evenly w-full bg-[#323738] ml-2 mr-2 h-10 overflow-hidden items-center rounded-md gap-2 font-poppins">
       {displayedElements
-      .slice()
-      .reverse()
-      .map((item) => (
-        <motion.div
-        key={item.id}
-        initial={{ x: 100, opacity: 0 }} // New value starts from the right
-        animate={{ x: 0, opacity: 1 }}   // Value moves into place
-        exit={{ x: -100, opacity: 0 }}   // If removed, it exits to the left
-        transition={{
-          type: "spring",
-          stiffness: 300,
-          damping: 30,
-        }}
-        className="text-xs leading-tight text-left text-tertiary items-center whitespace-nowrap font-semibold"
-      >
-        <div className="flex items-center space-x-1">
-          <BsFillCircleFill
-            style={{
-              fontWeight: 800,
-              fontSize: "12px",
-              marginTop: "3px",
-              color: getTextColor(item.crashpoint),
+        .slice()
+        .reverse()
+        .map((item) => (
+          <motion.div
+            key={item.id}
+            initial={{ x: 100, opacity: 0 }} // New value starts from the right
+            animate={{ x: 0, opacity: 1 }} // Value moves into place
+            exit={{ x: -100, opacity: 0 }} // If removed, it exits to the left
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 30,
             }}
-          />
-          <span
-            style={{
-              fontSize: "12px",
-              lineHeight: "15px",
-              fontWeight: 600,
-              color: "#849194",
-            }}
-            className="text-slate"
+            className="text-xs leading-tight text-left text-tertiary items-center whitespace-nowrap font-semibold"
           >
-            {item.id}
-          </span>
-        </div>
-        <div
-          style={{
-            fontSize: "14px",
-            lineHeight: "18px",
-            fontWeight: 900,
-            color: getTextColor(item.crashpoint),
-          }}
-          className="leading-tight whitespace-nowrap text-brand ml-4"
-        >
-          {item.crashpoint}
-          <i
-            style={{
-              fontSize: "10px",
-              lineHeight: "3px",
-              fontWeight: 900,
-            }}
-            className="fa-sharp fa-solid fa-xmark fa-xm"
-          ></i>
-        </div>
-      </motion.div>
-      
-      ))}
+            <div className="flex items-center space-x-1">
+              <BsFillCircleFill
+                style={{
+                  fontWeight: 800,
+                  fontSize: "12px",
+                  marginTop: "3px",
+                  color: getTextColor(item.crashpoint),
+                }}
+              />
+              <span
+                style={{
+                  fontSize: "12px",
+                  lineHeight: "15px",
+                  fontWeight: 600,
+                  color: "#849194",
+                }}
+                className="text-slate"
+              >
+                {item.id}
+              </span>
+            </div>
+            <div
+              style={{
+                fontSize: "14px",
+                lineHeight: "18px",
+                fontWeight: 900,
+                color: getTextColor(item.crashpoint),
+              }}
+              className="leading-tight whitespace-nowrap text-brand ml-4"
+            >
+              {item.crashpoint}
+              <i
+                style={{
+                  fontSize: "10px",
+                  lineHeight: "3px",
+                  fontWeight: 900,
+                }}
+                className="fa-sharp fa-solid fa-xmark fa-xm"
+              ></i>
+            </div>
+          </motion.div>
+        ))}
     </div>
   );
 };

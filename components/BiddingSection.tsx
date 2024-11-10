@@ -176,7 +176,7 @@ export default function BidderSection({ username }: { username: string }) {
               fontWeight: 800,
               color: "#fff",
             }}
-            onClick={() => setMode("Auto")} 
+            onClick={() => setMode("Auto")}
             className={`mx-4 ${
               mode === "Auto" ? "text-white" : "text-gray-400"
             }`}
@@ -194,43 +194,69 @@ export default function BidderSection({ username }: { username: string }) {
                 {gameState === "playing" && "Game is in progress..."}
                 {gameState === "crashed" && `Game crashed at ${crashPoint}x`}
               </div>
+
               {gameState === "playing" && isBetting ? (
                 <button
                   onClick={handleCashout}
-                  style={{
-                    fontSize: "14px",
-                    lineHeight: "20px",
-                    fontWeight: 800,
-                    backgroundColor: "#fc0303",
-                  }}
-                  className="text-black font-bold px-3 py-2 rounded-xl w-1/2"
+                  className="button button-brand button-m flex-1 w-full m-auto text-primary_brand font-[800] md:max-w-[400px] md:h-12 text-black rounded-xl glow-gradient"
                   disabled={loading}
                 >
-                  {loading
-                    ? "Processing..."
-                    : `Cash Out at ${(Number(multiplier) || 1).toFixed(2)}x`}
+                  <span className="flex flex-col items-center justify-center leading-tight">
+                    {loading ? (
+                      "Processing..."
+                    ) : (
+                      <span>{`Cash Out at ${(Number(multiplier) || 1).toFixed(
+                        2
+                      )}x`}</span>
+                    )}
+                  </span>
                 </button>
               ) : (
                 <button
                   onClick={handleNewBet}
-                  style={{
-                    fontSize: "14px",
-                    lineHeight: "20px",
-                    fontWeight: 900,
-                    backgroundColor: "#88fc03",
-                  }}
-                  className={`bg-green-500 hover:bg-green-600 text-black font-bold px-2 py-2 rounded-xl w-1/2 disabled:opacity-30 disabled:cursor-not-allowed`}
+                  className={`button button-brand button-m flex-1 w-full m-auto font-[800] md:max-w-[400px] md:h-12 text-black rounded-xl glow-gradient`}
                   disabled={
                     !userData ||
-                    loading == true ||
-                    isBetting == true ||
-                    (gameState !== "waiting")
+                    loading === true ||
+                    isBetting === true ||
+                    gameState !== "waiting"
                   }
                 >
-                  {loading ? "Betting..." : "Bet"}
+                  <span className="flex flex-col items-center justify-center leading-tight">
+                    {loading ? (
+                      "Betting..."
+                    ) : (
+                      <>
+                        <span>Bet</span>
+                    
+                      </>
+                    )}
+                  </span>
                 </button>
               )}
             </div>
+
+            <style jsx>{`
+              .glow-gradient {
+                background: linear-gradient(270deg, #88fc03, #a2f478);
+                background-size: 200% 100%;
+                transition: background-position 0.4s ease-in-out,
+                  box-shadow 0.4s ease-in-out;
+                box-shadow: 0 4px 15px rgba(136, 252, 3, 0.5);
+              }
+
+              .glow-gradient:hover {
+                background-position: 100% 0;
+                box-shadow: 0 4px 20px rgba(162, 244, 120, 0.7);
+              }
+
+              .glow-gradient:disabled {
+                background: #3C9510FF;
+                background-size: 100% 100%;
+                box-shadow: none;
+                cursor: not-allowed;
+              }
+            `}</style>
 
             <div className="flex justify-between items-center mb-3">
               <div className="flex-1 pr-4">
@@ -259,8 +285,8 @@ export default function BidderSection({ username }: { username: string }) {
                   </span>
                 </div>
 
-                <div className="flex items-center bg-gray-900 p-1 rounded-lg justify-between w-full">
-                  <div className="flex items-center bg-gray-900 p-1 rounded-lg">
+                <div className="flex items-center bg-[#292d2e] p-1 rounded-lg justify-between w-full">
+                  <div className="flex items-center bg-[#292d2e] p-1 rounded-lg">
                     <i className="fa-solid fa-indian-rupee-sign fa-xs"></i>
                     <input
                       type="number"
@@ -287,9 +313,9 @@ export default function BidderSection({ username }: { username: string }) {
                         fontSize: "14px",
                         height: "2.5rem",
                         lineHeight: "12px",
-                        fontWeight: 800,
+                        fontWeight: 400,
                       }}
-                      className="bg-gray-600 text-white px-3 p-2 rounded-lg hover:bg-gray-500"
+                      className="bg-[#3a4142] text-white px-3 p-2 rounded-lg hover:bg-gray-500"
                       onClick={() => setAmount(amount / 2)}
                     >
                       1/2
@@ -299,9 +325,9 @@ export default function BidderSection({ username }: { username: string }) {
                         fontSize: "14px",
                         height: "2.5rem",
                         lineHeight: "12px",
-                        fontWeight: 800,
+                        fontWeight: 400,
                       }}
-                      className="bg-gray-600 text-white px-3 p-2 rounded-lg hover:bg-gray-500"
+                      className="bg-[#3a4142] text-white px-3 p-2 rounded-lg hover:bg-gray-500"
                       onClick={() => setAmount(amount * 2)}
                     >
                       2x
@@ -313,19 +339,20 @@ export default function BidderSection({ username }: { username: string }) {
                         fontWeight: 800,
                         color: "#b3bec1",
                       }}
-                      className="flex flex-col items-center space-y-1"
+                      className="flex items-center space-x-2 bg-[#292d2e] rounded-lg"
                     >
                       <button
-                        className="bg-gray-600 px-3 p-1 rounded-lg flex flex-col items-center hover:bg-gray-500"
-                        onClick={() => setAmount(amount + 1)}
-                      >
-                        <i className="fas fa-chevron-up"></i>
-                      </button>
-                      <button
-                        className="bg-gray-600 px-3 py-1 rounded-lg flex flex-col items-center hover:bg-gray-500"
+                        className="bg-[#3a4142] w-10 h-10 flex items-center justify-center rounded-md hover:bg-gray-500 font-bold"
                         onClick={() => setAmount(Math.max(0, amount - 1))}
                       >
-                        <i className="fas fa-chevron-down"></i>
+                        <i className=" fas fa-chevron-left"></i>
+                      </button>
+
+                      <button
+                        className="bg-[#3a4142] w-10 h-10 flex items-center justify-center rounded-md hover:bg-gray-500"
+                        onClick={() => setAmount(amount + 1)}
+                      >
+                        <i className="fas fa-chevron-right"></i>
                       </button>
                     </div>
                   </div>
@@ -342,7 +369,7 @@ export default function BidderSection({ username }: { username: string }) {
                       }}
                       key={val}
                       onClick={() => setAmount(val)}
-                      className="bg-gray-600 text-white rounded-lg py-2 hover:bg-gray-500"
+                      className="bg-[#353b3c] text-white rounded-lg py-2 hover:bg-gray-500"
                     >
                       ₹{val}
                     </button>
@@ -425,8 +452,8 @@ export default function BidderSection({ username }: { username: string }) {
 
                 <div className="flex space-x-4">
                   {/* First Auto Multiplier Control */}
-                  <div className="flex items-center bg-gray-900 p-1 rounded-lg justify-between w-1/2">
-                    <div className="flex items-center bg-gray-900 p-1 rounded-lg">
+                  <div className="flex items-center bg-[#292d2e] p-1 rounded-lg justify-between w-1/2">
+                    <div className="flex items-center bg-[#292d2e] p-1 rounded-lg">
                       <i className="fa-sharp fa-solid fa-xmark"></i>
                       <input
                         type="number"
@@ -457,7 +484,7 @@ export default function BidderSection({ username }: { username: string }) {
                           lineHeight: "12px",
                           fontWeight: 800,
                         }}
-                        className="bg-gray-600 text-white px-3 p-2 rounded-lg hover:bg-gray-500"
+                        className="bg-[#3a4142] text-white px-3 p-2 rounded-lg hover:bg-gray-500"
                         onClick={() => setAutoMultiplier(autoMultiplier / 2)}
                       >
                         1/2
@@ -469,7 +496,7 @@ export default function BidderSection({ username }: { username: string }) {
                           lineHeight: "12px",
                           fontWeight: 800,
                         }}
-                        className="bg-gray-600 text-white px-3 p-2 rounded-lg hover:bg-gray-500"
+                        className="bg-[#3a4142] text-white px-3 p-2 rounded-lg hover:bg-gray-500"
                         onClick={() => setAutoMultiplier(autoMultiplier * 2)}
                       >
                         2x
@@ -483,13 +510,13 @@ export default function BidderSection({ username }: { username: string }) {
                         className="flex flex-col items-center space-y-1"
                       >
                         <button
-                          className="bg-gray-600 px-3 p-1 rounded-lg flex flex-col items-center hover:bg-gray-500"
+                          className="bg-[#3a4142] px-3 p-1 rounded-lg flex flex-col items-center hover:bg-gray-500"
                           onClick={() => setAutoMultiplier(autoMultiplier + 1)}
                         >
                           <i className="fas fa-chevron-up"></i>
                         </button>
                         <button
-                          className="bg-gray-600 px-3 py-1 rounded-lg flex flex-col items-center hover:bg-gray-500"
+                          className="bg-[#3a4142] px-3 py-1 rounded-lg flex flex-col items-center hover:bg-gray-500"
                           onClick={() =>
                             setAutoMultiplier(Math.max(0, autoMultiplier - 1))
                           }
@@ -502,8 +529,8 @@ export default function BidderSection({ username }: { username: string }) {
 
                   {/* Second Auto Multiplier Control */}
 
-                  <div className="flex items-center bg-gray-900 p-1 rounded-lg justify-between w-1/2">
-                    <div className="flex items-center bg-gray-900 p-1 rounded-lg">
+                  <div className="flex items-center bg-[#292d2e]  p-1 rounded-lg justify-between w-1/2">
+                    <div className="flex items-center bg-[#292d2e]  p-1 rounded-lg">
                       <i className="fa-solid fa-indian-rupee-sign"></i>
                       <input
                         type="number"
@@ -525,40 +552,42 @@ export default function BidderSection({ username }: { username: string }) {
                     </div>
 
                     <div
-                     style={{
-                      fontSize: "14px",
-                      height: "2.5rem",
-                      lineHeight: "12px",
-                      fontWeight: 800,
-                    }}
+                      style={{
+                        fontSize: "14px",
+                        height: "2.5rem",
+                        lineHeight: "12px",
+                        fontWeight: 800,
+                      }}
                       className="flex space-x-2"
                     >
                       <button
-                        className="bg-gray-600 text-white px-3 p-2 rounded-lg hover:bg-gray-500"
+                        className="bg-[#3a4142] text-white px-3 p-2 rounded-lg hover:bg-gray-500"
                         onClick={() => setAmount(amount / 2)}
                       >
                         1/2
                       </button>
                       <button
-                        className="bg-gray-600 text-white px-3 p-2 rounded-lg hover:bg-gray-500"
+                        className="bg-[#3a4142] text-white px-3 p-2 rounded-lg hover:bg-gray-500"
                         onClick={() => setAmount(amount * 2)}
                       >
                         2x
                       </button>
-                      <div style={{
+                      <div
+                        style={{
                           fontSize: "10px",
                           lineHeight: "12px",
                           fontWeight: 800,
                         }}
-                      className="flex flex-col items-center space-y-1">
+                        className="flex flex-col items-center space-y-1"
+                      >
                         <button
-                          className="bg-gray-600 text-white px-3 p-1 rounded-lg flex flex-col items-center hover:bg-gray-500"
+                          className="bg-[#3a4142] text-white px-3 p-1 rounded-lg flex flex-col items-center hover:bg-gray-500"
                           onClick={() => setAmount(amount + 1)}
                         >
                           <i className="fas fa-chevron-up"></i>
                         </button>
                         <button
-                          className="bg-gray-600 text-white px-3 py-1 rounded-lg flex flex-col items-center hover:bg-gray-500"
+                          className="bg-[#3a4142] text-white px-3 py-1 rounded-lg flex flex-col items-center hover:bg-gray-500"
                           onClick={() => setAmount(Math.max(0, amount - 1))}
                         >
                           <i className="fas fa-chevron-down"></i>

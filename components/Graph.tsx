@@ -202,6 +202,10 @@ export default function Component() {
     ],
   };
 
+  const buffer = 0.2; // 20% buffer above the highest value
+  const maxDataPoint = calculateMaxYAxis(); // The highest y value from your data
+  const maxYAxisValue = maxDataPoint + buffer * maxDataPoint; // Add buffer to max value
+
   const options: ChartOptions<"line"> = {
     responsive: true,
     maintainAspectRatio: false,
@@ -222,10 +226,11 @@ export default function Component() {
         type: "linear",
         position: "left",
         min: 1,
-        max: calculateMaxYAxis(), // Dynamic y-axis max value
+        max: maxYAxisValue, // Dynamic y-axis max value with a growing effect
         title: { display: true, text: "Multiplier (x)" },
         ticks: {
-          callback: (value) => `${Number(value).toFixed(1)}x`,
+          callback: () => "•", // Display dots instead of numbers
+          stepSize: Math.ceil(maxYAxisValue / 10), // Adjust ticks dynamically
         },
         grid: { display: false },
       },
@@ -237,7 +242,7 @@ export default function Component() {
   };
 
   return (
-    <div className="relative w-full h-[300px] sm:h-[300px] md:h-[330px] bg-[#1f1e1e] rounded-lg overflow-hidden font-poppins">
+    <div className="relative w-full h-[300px] sm:h-[300px] md:h-[330px] bg-[#292d2e] rounded-lg overflow-hidden font-poppins">
       <div className="absolute inset-0">
         <Line data={data} options={options} />
       </div>
