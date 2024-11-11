@@ -198,7 +198,7 @@ export default function BidderSection({ username }: { username: string }) {
               {gameState === "playing" && isBetting ? (
                 <button
                   onClick={handleCashout}
-                  className="button button-brand button-m flex-1 w-full m-auto text-primary_brand font-[800] md:max-w-[400px] md:h-12 text-black rounded-xl glow-gradient"
+                  className="button button-m flex-1 w-full m-auto bg-red-500 text-white font-[800] md:max-w-[400px] sm:h-11 md:h-12 rounded-xl hover:bg-red-600 disabled:bg-red-300"
                   disabled={loading}
                 >
                   <span className="flex flex-col items-center justify-center leading-tight">
@@ -214,7 +214,7 @@ export default function BidderSection({ username }: { username: string }) {
               ) : (
                 <button
                   onClick={handleNewBet}
-                  className={`button button-brand button-m flex-1 w-full m-auto font-[800] md:max-w-[400px] md:h-12 text-black rounded-xl glow-gradient`}
+                  className={`button button-brand button-m flex-1 w-full m-auto font-[800] md:max-w-[400px] sm:h-12 md:h-11 text-black rounded-xl glow-gradient`}
                   disabled={
                     !userData ||
                     loading === true ||
