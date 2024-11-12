@@ -1,3 +1,4 @@
+// main section
 "use client";
 import React, { useState, useEffect } from "react";
 import CrashStack from "./CrashStack";
