@@ -198,7 +198,7 @@ export default function BidderSection({ username }: { username: string }) {
               {gameState === "playing" && isBetting ? (
                 <button
                   onClick={handleCashout}
-                  className="button button-brand button-m flex-1 w-full m-auto text-primary_brand font-[800] md:max-w-[400px] md:h-12 text-black rounded-xl glow-gradient"
+                  className="button button-brand button-m flex-1 w-full m-auto text-primary_brand font-[800] md:max-w-[400px]h-12 md:h-12 text-black rounded-xl glow-gradient"
                   disabled={loading}
                 >
                   <span className="flex flex-col items-center justify-center leading-tight">
@@ -214,7 +214,7 @@ export default function BidderSection({ username }: { username: string }) {
               ) : (
                 <button
                   onClick={handleNewBet}
-                  className={`button button-brand button-m flex-1 w-full m-auto font-[800] md:max-w-[400px] md:h-12 text-black rounded-xl glow-gradient`}
+                  className={`button button-brand button-m flex-1 w-full m-auto font-[800] md:max-w-[400px] h-12 md:h-12 text-black rounded-xl glow-gradient`}
                   disabled={
                     !userData ||
                     loading === true ||
@@ -228,7 +228,6 @@ export default function BidderSection({ username }: { username: string }) {
                     ) : (
                       <>
                         <span>Bet</span>
-                    
                       </>
                     )}
                   </span>
@@ -251,7 +250,7 @@ export default function BidderSection({ username }: { username: string }) {
               }
 
               .glow-gradient:disabled {
-                background: #3C9510FF;
+                background: #3c9510ff;
                 background-size: 100% 100%;
                 box-shadow: none;
                 cursor: not-allowed;
