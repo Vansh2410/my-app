@@ -9,15 +9,14 @@ import { FaAngleDown } from "react-icons/fa";
 import { RiMenuUnfoldFill } from "react-icons/ri";
 
 const MainSection = ({ username }: { username?: string }) => {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(window.innerWidth >= 1024); // Expanded on large screens by default
 
-  // Detect screen size to determine if sidebar should be expandable
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsExpanded(true); // Always expanded on medium and large screens
+      if (window.innerWidth >= 1024) {
+        setIsExpanded(true); // Always expanded on large screens
       } else {
-        setIsExpanded(false); // Collapsible on small screens
+        setIsExpanded(false); // Collapsed on small and medium screens
       }
     };
 
@@ -26,9 +25,9 @@ const MainSection = ({ username }: { username?: string }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Toggle sidebar expansion only on small screens
+  // Toggle sidebar expansion only on small and medium screens
   const toggleExpand = () => {
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 1024) {
       setIsExpanded((prev) => !prev);
     }
   };
@@ -39,11 +38,14 @@ const MainSection = ({ username }: { username?: string }) => {
       <div
         className={`${
           isExpanded ? "w-[250px]" : "w-[60px]"
-        } h-full bg-[#292d2e] transition-all duration-300 ease-in-out flex-col items-start px-3 py-4 fixed z-30 shadow-lg sm:hidden md:flex`}
+        } h-full bg-[#292d2e] transition-all duration-300 ease-in-out flex-col items-start px-3 py-4 fixed z-30 shadow-lg
+    ${
+      isExpanded ? "hidden sm:flex md:w-[60px]" : "hidden sm:flex"
+    } lg:w-[250px]`}
       >
         <button
           onClick={toggleExpand}
-          className="bg-[#3d4344] hover:bg-[#4e5858] text-white rounded-lg p-2 mb-4 md:hidden"
+          className="bg-[#3d4344] hover:bg-[#4e5858] text-white rounded-lg p-2 mb-4 hidden md:block lg:hidden"
         >
           <RiMenuUnfoldFill className="w-6 h-6" />
         </button>
@@ -72,7 +74,7 @@ const MainSection = ({ username }: { username?: string }) => {
       {/* Main Content */}
       <div
         className={`transition-all duration-300 flex-1 flex flex-col bg-layer2 overflow-auto ${
-          isExpanded ? "ml-[250px]" : "ml-[60px]"
+          isExpanded ? "ml-[250px]" : "ml-0 sm:ml-[60px]"
         }`}
       >
         {/* Main Content Container */}
@@ -94,7 +96,7 @@ const MainSection = ({ username }: { username?: string }) => {
             </div>
 
             {/* Right Section (Leaderboard) */}
-            <div className="h-full md:w-[35%]">
+            <div className="h-full md:w-[35%] ml-4 md:ml-0">
               <div className="bg-[#232626] rounded-xl">
                 <Leaderboard />
               </div>

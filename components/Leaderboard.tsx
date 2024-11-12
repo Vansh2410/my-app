@@ -34,7 +34,7 @@ export default function Leaderboard() {
   }, []);
 
   return (
-    <div className="w-full mx-auto p-4 bg-[#323738] rounded-lg font-poppins">
+    <div className="w-full mx-auto p-4 bg-[#323738] rounded-lg font-poppins ">
       {/* Header for the leaderboard */}
       <div className="grid grid-cols-4 font-semibold text-gray-400 text-center text-sm mb-11">
         <div className="text-left pl-2">Player</div>
